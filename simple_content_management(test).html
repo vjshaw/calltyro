@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calltyro - Content Management (Test Version)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8fafc;
+            color: #333;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #4f46e5;
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: #6b7280;
+            font-size: 1.1rem;
+        }
+
+        .alert {
+            background: #dbeafe;
+            border: 1px solid #3b82f6;
+            color: #1e40af;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 12px;
+            padding: 0.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .tab {
+            flex: 1;
+            padding: 1rem;
+            background: transparent;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #6b7280;
+        }
+
+        .tab.active {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .content-section {
+            display: none;
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 2px solid #e5e7eb;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4f46e5;
+            display: block;
+        }
+
+        .stat-label {
+            color: #6b7280;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4338ca;
+        }
+
+        .btn-success {
+            background: #10b981;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: #059669;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .table th, .table td {
+            padding: 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table th {
+            background: #f8fafc;
+            font-weight: 600;
+        }
+
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .badge-literature {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .badge-science {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .badge-history {
+            background: #fce7f3;
+            color: #e91e63;
+        }
+
+        .file-upload {
+            border: 2px dashed #d1d5db;
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .file-upload:hover {
+            border-color: #4f46e5;
+            background: #f8fafc;
+        }
+
+        .success-message {
+            background: #dcfce7;
+            color: #166534;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>📚 Calltyro Content Management</h1>
+            <p>This is a <strong>test version</strong> to demonstrate the interface. Full functionality requires backend integration.</p>
+        </div>
+
+        <div class="alert">
+            <strong>🧪 Testing Mode:</strong> This is a simplified version that works without backend. All data is demo/sample data for interface testing only.
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
+            <button class="tab" onclick="showTab('create')">➕ Create Topic</button>
+            <button class="tab" onclick="showTab('manage')">📝 Manage Topics</button>
+            <button class="tab" onclick="showTab('import')">📤 Import</button>
+        </div>
+
+        <!-- Success Message -->
+        <div id="successMessage" class="success-message">
+            Operation completed successfully!
+        </div>
+
+        <!-- Overview Tab -->
+        <div id="overview" class="content-section active">
+            <h3 style="margin-bottom: 1.5rem;">📈 Platform Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-number">24</span>
+                    <div class="stat-label">Total Topics</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">22</span>
+                    <div class="stat-label">Active Topics</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">156</span>
+                    <div class="stat-label">Total Calls</div>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number">4.2</span>
+                    <div class="stat-label">Avg Rating</div>
+                </div>
+            </div>
+
+            <h4 style="margin-bottom: 1rem;">📋 Recent Activity</h4>
+            <div style="background: #f8fafc; padding: 1rem; border-radius: 8px;">
+                <div style="margin-bottom: 0.5rem;">✅ <strong>Topic created:</strong> "DNA Structure and Function" (Science)</div>
+                <div style="margin-bottom: 0.5rem;">📝 <strong>Topic updated:</strong> "Romeo and Juliet" - Added learning objectives</div>
+                <div>📤 <strong>Bulk import:</strong> 12 new History topics added</div>
+            </div>
+        </div>
+
+        <!-- Create Topic Tab -->
+        <div id="create" class="content-section">
+            <h3 style="margin-bottom: 1.5rem;">➕ Create New Learning Topic</h3>
+            
+            <form id="createTopicForm">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label class="form-label">Topic Title *</label>
+                        <input type="text" class="form-input" name="title" required 
+                               placeholder="e.g., Romeo and Juliet Character Analysis">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Subject *</label>
+                        <select class="form-select" name="subject" required>
+                            <option value="">Select Subject</option>
+                            <option value="Literature">Literature</option>
+                            <option value="Science">Science</option>
+                            <option value="History">History</option>
+                            <option value="Math">Mathematics</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Description *</label>
+                    <textarea class="form-textarea" name="description" required 
+                              placeholder="Describe what students will learn and discuss..."></textarea>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                    <div class="form-group">
+                        <label class="form-label">Difficulty Level *</label>
+                        <select class="form-select" name="difficulty" required>
+                            <option value="">Select Difficulty</option>
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Duration (minutes) *</label>
+                        <input type="number" class="form-input" name="duration" 
+                               required min="5" max="60" placeholder="18">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="margin-right: 1rem;">Create Topic</button>
+                <button type="button" class="btn btn-success" onclick="resetForm()">Reset Form</button>
+            </form>
+        </div>
+
+        <!-- Manage Topics Tab -->
+        <div id="manage" class="content-section">
+            <h3 style="margin-bottom: 1.5rem;">📝 Manage Existing Topics</h3>
+            
+            <div style="margin-bottom: 1rem;">
+                <input type="text" class="form-input" placeholder="Search topics..." 
+                       style="width: 300px; display: inline-block; margin-right: 1rem;">
+                <select class="form-select" style="width: 150px; display: inline-block;">
+                    <option value="">All Subjects</option>
+                    <option value="Literature">Literature</option>
+                    <option value="Science">Science</option>
+                    <option value="History">History</option>
+                </select>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Topic</th>
+                        <th>Subject</th>
+                        <th>Difficulty</th>
+                        <th>Duration</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <strong>Romeo and Juliet Character Analysis</strong><br>
+                            <small style="color: #6b7280;">ID: 1</small>
+                        </td>
+                        <td><span class="badge badge-literature">Literature</span></td>
+                        <td>Intermediate</td>
+                        <td>18 min</td>
+                        <td style="color: #059669;">✅ Active</td>
+                        <td>
+                            <button class="btn btn-primary" style="padding: 0.5rem; margin-right: 0.5rem;" onclick="editTopic(1)">Edit</button>
+                            <button class="btn" style="padding: 0.5rem; background: #ef4444; color: white;" onclick="deleteTopic(1)">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Photosynthesis Process</strong><br>
+                            <small style="color: #6b7280;">ID: 2</small>
+                        </td>
+                        <td><span class="badge badge-science">Science</span></td>
+                        <td>Beginner</td>
+                        <td>15 min</td>
+                        <td style="color: #059669;">✅ Active</td>
+                        <td>
+                            <button class="btn btn-primary" style="padding: 0.5rem; margin-right: 0.5rem;" onclick="editTopic(2)">Edit</button>
+                            <button class="btn" style="padding: 0.5rem; background: #ef4444; color: white;" onclick="deleteTopic(2)">Delete</button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Civil War Causes and Effects</strong><br>
+                            <small style="color: #6b7280;">ID: 3</small>
+                        </td>
+                        <td><span class="badge badge-history">History</span></td>
+                        <td>Intermediate</td>
+                        <td>22 min</td>
+                        <td style="color: #dc2626;">❌ Inactive</td>
+                        <td>
+                            <button class="btn btn-primary" style="padding: 0.5rem; margin-right: 0.5rem;" onclick="editTopic(3)">Edit</button>
+                            <button class="btn" style="padding: 0.5rem; background: #ef4444; color: white;" onclick="deleteTopic(3)">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Import Tab -->
+        <div id="import" class="content-section">
+            <h3 style="margin-bottom: 1.5rem;">📤 Bulk Import Topics</h3>
+            
+            <p style="margin-bottom: 2rem;">Import multiple topics from CSV or Excel files. This is a demo interface - actual file processing requires backend integration.</p>
+
+            <div style="margin-bottom: 2rem;">
+                <button class="btn btn-success" style="margin-right: 1rem;" onclick="downloadTemplate()">📄 Download CSV Template</button>
+                <button class="btn btn-success" onclick="showSampleData()">📋 View Sample Format</button>
+            </div>
+
+            <div class="file-upload" onclick="simulateFileUpload()">
+                <div style="font-size: 2rem; margin-bottom: 0.5rem;">📁</div>
+                <div style="margin-bottom: 0.5rem;">Click to simulate file upload</div>
+                <div style="font-size: 0.875rem; color: #6b7280;">Supports CSV, Excel (.xlsx, .xls) files up to 10MB</div>
+            </div>
+
+            <div id="sampleDataDisplay" style="display: none; margin-top: 2rem; background: #f8fafc; padding: 1rem; border-radius: 8px;">
+                <h4>📋 Sample CSV Format:</h4>
+                <pre style="font-size: 0.875rem; color: #374151; margin-top: 0.5rem;">title,description,subject,grade_levels,difficulty_level,estimated_duration
+"Romeo and Juliet Analysis","Character study of Shakespeare's tragedy","Literature","9-12","intermediate","18"
+"Photosynthesis Basics","How plants convert sunlight to energy","Science","6-8,9-12","beginner","15"</pre>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // Remove active class from all tabs
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+
+            // Show selected content section
+            document.getElementById(tabName).classList.add('active');
+
+            // Activate selected tab
+            event.target.classList.add('active');
+        }
+
+        // Form submission
+        document.getElementById('createTopicForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showSuccessMessage('Topic created successfully! (Demo mode - no actual database save)');
+            resetForm();
+        });
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('createTopicForm').reset();
+        }
+
+        // Topic actions
+        function editTopic(id) {
+            showSuccessMessage(`Edit functionality for topic ${id} (Demo mode - would open edit form)`);
+        }
+
+        function deleteTopic(id) {
+            if (confirm('Are you sure you want to delete this topic?')) {
+                showSuccessMessage(`Topic ${id} deleted successfully! (Demo mode - no actual deletion)`);
+            }
+        }
+
+        // Import functions
+        function downloadTemplate() {
+            showSuccessMessage('CSV template downloaded! (Demo mode - would trigger actual download)');
+        }
+
+        function showSampleData() {
+            const display = document.getElementById('sampleDataDisplay');
+            display.style.display = display.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function simulateFileUpload() {
+            showSuccessMessage('File upload simulated! In production, this would process your CSV/Excel file.');
+        }
+
+        // Success message
+        function showSuccessMessage(message) {
+            const successDiv = document.getElementById('successMessage');
+            successDiv.textContent = message;
+            successDiv.classList.add('show');
+            
+            setTimeout(() => {
+                successDiv.classList.remove('show');
+            }, 4000);
+        }
+
+        // Initialize
+        console.log('🎉 Calltyro Content Management System loaded successfully!');
+        console.log('📝 This is a demo version. All interactions are simulated.');
+        console.log('🔗 For full functionality, integrate with the backend APIs provided.');
+    </script>
+</body>
+</html>

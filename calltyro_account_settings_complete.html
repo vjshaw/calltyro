@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Calltyro - Account Settings</title>
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body { font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:linear-gradient(135deg,#f8fafc 0%,#e2e8f0 100%); min-height:100vh; color:#333; }
+    .header { background:white; box-shadow:0 2px 10px rgba(0,0,0,0.1); padding:1rem 0; position:sticky; top:0; z-index:100; }
+    .header-content { max-width:1200px; margin:0 auto; padding:0 2rem; display:flex; justify-content:space-between; align-items:center; }
+    .logo { font-size:1.8rem; font-weight:bold; color:#4f46e5; text-decoration:none; }
+    .nav-menu { display:flex; align-items:center; gap:1.5rem; }
+    .nav-link { color:#6b7280; text-decoration:none; font-weight:500; transition:color .3s; }
+    .nav-link:hover { color:#4f46e5; }
+    .back-btn { background:#4f46e5; color:white; padding:.5rem 1rem; border-radius:8px; text-decoration:none; font-size:.9rem; transition:all .3s; }
+    .back-btn:hover { background:#4338ca; }
+    .main-container { max-width:1000px; margin:0 auto; padding:2rem; display:grid; grid-template-columns:250px 1fr; gap:2rem; }
+    .settings-nav { background:white; border-radius:16px; padding:1.5rem; box-shadow:0 4px 6px rgba(0,0,0,0.05); position:sticky; top:100px; }
+    .nav-title { font-size:1.2rem; font-weight:600; color:#1f2937; margin-bottom:1rem; }
+    .nav-item { display:flex; align-items:center; gap:.75rem; padding:.75rem 1rem; color:#6b7280; text-decoration:none; border-radius:8px; margin-bottom:.5rem; transition:all .3s; }
+    .nav-item:hover { background:#f3f4f6; color:#4f46e5; }
+    .nav-item.active { background:#4f46e5; color:white; }
+    .nav-icon { font-size:1.1rem; }
+    .settings-content { background:white; border-radius:16px; padding:2rem; box-shadow:0 4px 6px rgba(0,0,0,0.05); }
+    .content-section { display:none; }
+    .content-section.active { display:block; }
+    .section-header { margin-bottom:2rem; }
+    .section-title { font-size:1.8rem; color:#1f2937; margin-bottom:.5rem; font-weight:600; }
+    .section-subtitle { color:#6b7280; font-size:1rem; }
+    .form-group { margin-bottom:1.5rem; }
+    .form-label { display:block; font-weight:600; margin-bottom:.5rem; color:#374151; }
+    .form-input, .form-select, .form-textarea { width:100%; padding:.875rem; border:2px solid #e5e7eb; border-radius:8px; font-size:1rem; transition:border-color .3s; }
+    .form-input:focus, .form-select:focus, .form-textarea:focus { outline:none; border-color:#4f46e5; box-shadow:0 0 0 3px rgba(79,70,229,0.1); }
+    .form-textarea { resize:vertical; min-height:100px; }
+    .form-help { font-size:.875rem; color:#6b7280; margin-top:.25rem; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    .avatar-section { display:flex; align-items:center; gap:1.5rem; margin-bottom:2rem; padding:1.5rem; background:#f8fafc; border-radius:12px; }
+    .avatar { width:80px; height:80px; border-radius:50%; background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 100%); display:flex; align-items:center; justify-content:center; color:white; font-size:2rem; font-weight:bold; }
+    .avatar-info h3 { color:#1f2937; margin-bottom:.25rem; }
+    .avatar-info p { color:#6b7280; font-size:.875rem; }
+    .settings-card { border:2px solid #e5e7eb; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem; transition:border-color .3s; }
+    .settings-card:hover { border-color:#4f46e5; }
+    .card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; }
+    .card-title { font-size:1.2rem; font-weight:600; color:#1f2937; display:flex; align-items:center; gap:.5rem; }
+    .card-description { color:#6b7280; font-size:.9rem; }
+    .toggle-switch { position:relative; display:inline-block; width:50px; height:24px; }
+    .toggle-switch input { opacity:0; width:0; height:0; }
+    .toggle-slider { position:absolute; cursor:pointer; inset:0; background:#e5e7eb; border-radius:24px; transition:.3s; }
+    .toggle-slider:before { content:""; position:absolute; height:18px; width:18px; left:3px; bottom:3px; background:white; border-radius:50%; transition:.3s; }
+    input:checked + .toggle-slider { background:#4f46e5; }
+    input:checked + .toggle-slider:before { transform:translateX(26px); }
+    .preference-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:1rem; margin-top:1rem; }
+    .preference-option { border:2px solid #e5e7eb; border-radius:8px; padding:1rem; text-align:center; cursor:pointer; transition:all .3s; }
+    .preference-option:hover { border-color:#4f46e5; }
+    .preference-option.selected { border-color:#4f46e5; background:#f0f4ff; }
+    .preference-icon { font-size:1.5rem; margin-bottom:.5rem; }
+    .preference-title { font-weight:600; color:#1f2937; margin-bottom:.25rem; }
+    .preference-desc { font-size:.875rem; color:#6b7280; }
+    .btn { padding:.875rem 2rem; border:none; border-radius:8px; font-weight:600; cursor:pointer; transition:all .3s; display:inline-block; text-align:center; font-size:1rem; }
+    .btn-primary { background:#4f46e5; color:white; }
+    .btn-primary:hover { background:#4338ca; transform:translateY(-2px); box-shadow:0 5px 15px rgba(79,70,229,0.4); }
+    .btn-outline { background:transparent; color:#4f46e5; border:2px solid #4f46e5; }
+    .btn-outline:hover { background:#4f46e5; color:white; }
+    .button-group { display:flex; gap:1rem; margin-top:2rem; }
+    .alert { padding:1rem; border-radius:8px; margin-bottom:1.5rem; display:flex; align-items:center; gap:.5rem; }
+    .alert-info { background:#dbeafe; color:#1e40af; border:1px solid #3b82f6; }
+    @media(max-width:768px){
+      .main-container { grid-template-columns:1fr; padding:1rem; gap:1rem; }
+      .settings-nav { display:flex; overflow-x:auto; gap:.5rem; padding:1rem; }
+      .nav-title { display:none; }
+      .form-row { grid-template-columns:1fr; }
+      .button-group { flex-direction:column; }
+      .nav-menu .nav-link { display:none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="header-content">
+      <a href="index.html" class="logo">Calltyro</a>
+      <nav class="nav-menu">
+        <a href="dashboard.html" class="nav-link">Dashboard</a>
+        <a href="schedule-call.html" class="nav-link">Schedule Call</a>
+        <a href="progress.html" class="nav-link">Progress</a>
+        <a href="pricing.html" class="nav-link">Billing</a>
+        <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+      </nav>
+    </div>
+  </header>
+  <main class="main-container">
+    <nav class="settings-nav">
+      <h3 class="nav-title">⚙️ Settings</h3>
+      <a href="#" class="nav-item active" onclick="showSection('profile')"><span class="nav-icon">👤</span>Profile</a>
+      <a href="#" class="nav-item" onclick="showSection('account')"><span class="nav-icon">🏠</span>Account</a>
+      <a href="#" class="nav-item" onclick="showSection('learning')"><span class="nav-icon">📚</span>Learning</a>
+      <a href="#" class="nav-item" onclick="showSection('calls')"><span class="nav-icon">📞</span>Call Settings</a>
+      <a href="#" class="nav-item" onclick="showSection('notifications')"><span class="nav-icon">🔔</span>Notifications</a>
+      <a href="#" class="nav-item" onclick="showSection('privacy')"><span class="nav-icon">🔒</span>Privacy</a>
+    </nav>
+    <div class="settings-content">
+      <!-- Profile Section -->
+      <div id="profile" class="content-section active">
+        <div class="section-header">
+          <h2 class="section-title">👤 Profile Information</h2>
+          <p class="section-subtitle">Manage your personal info & account details</p>
+        </div>
+        <div class="avatar-section">
+          <div class="avatar">SJ</div>
+          <div class="avatar-info">
+            <h3>Sarah Johnson</h3>
+            <p>Student • 11th Grade • Active since Oct 2024</p>
+            <button class="btn btn-outline btn-small" style="margin-top:.5rem;">Change Photo</button>
+          </div>
+        </div>
+        <form onsubmit="saveProfile(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">First Name</label>
+              <input type="text" class="form-input" value="Sarah" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Last Name</label>
+              <input type="text" class="form-input" value="Johnson" required />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address</label>
+            <input type="email" class="form-input" value="sarah.student@email.com" required />
+            <p class="form-help">We'll send summaries & reminders here</p>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Grade Level</label>
+              <select class="form-select" required>
+                <option value="">Select Grade</option>
+                <option value="6">6th Grade</option>
+                <option value="7">7th Grade</option>
+                <option value="8">8th Grade</option>
+                <option value="9">9th Grade</option>
+                <option value="10">10th Grade</option>
+                <option value="11" selected>11th Grade</option>
+                <option value="12">12th Grade</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Time Zone</label>
+              <select class="form-select" required>
+                <option value="EST">Eastern Time (EST)</option>
+                <option value="CST" selected>Central Time (CST)</option>
+                <option value="MST">Mountain Time (MST)</option>
+                <option value="PST">Pacific Time (PST)</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Phone Number</label>
+            <input type="tel" class="form-input" value="(555) 123-4567" required />
+            <p class="form-help">We call you here for sessions</p>
+          </div>
+          <div class="button-group">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <button type="button" class="btn btn-outline">Cancel</button>
+          </div>
+        </form>
+      </div>
+      <!-- Account Section -->
+      <div id="account" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title">🏠 Account Overview</h2>
+          <p class="section-subtitle">Your account stats & actions</p>
+        </div>
+        <div class="account-stats">
+          <div class="stat-card"><div class="stat-value">147</div><div class="stat-label">Total Calls</div></div>
+          <div class="stat-card"><div class="stat-value">42h</div><div class="stat-label">Learning Time</div></div>
+          <div class="stat-card"><div class="stat-value">23</div><div class="stat-label">Topics Covered</div></div>
+          <div class="stat-card"><div class="stat-value">89%</div><div class="stat-label">Completion Rate</div></div>
+        </div>
+        <div class="settings-card">
+          <div class="card-header"><h3 class="card-title">📧 Account Type</h3></div>
+          <p><strong>Premium Student Account</strong></p>
+          <p class="card-description">Unlimited calls • All subjects • Priority support</p>
+          <p style="margin-top:.5rem;color:#6b7280;">Created: Oct 15, 2024</p>
+          <button class="btn btn-outline btn-small" style="margin-top:1rem;">View Billing Details</button>
+        </div>
+        <div class="settings-card">
+          <div class="card-header"><h3 class="card-title">🔄 Account Actions</h3></div>
+          <div class="button-group">
+            <button class="btn btn-outline">Export Data</button>
+            <button class="btn btn-outline">Download Report</button>
+            <button class="btn btn-danger">Delete Account</button>
+          </div>
+        </div>
+      </div>
+      <!-- Learning Section -->
+      <div id="learning" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title">📚 Learning Preferences</h2>
+          <p class="section-subtitle">Customize your learning</p>
+        </div>
+        <div class="settings-card">
+          <h3 class="card-title">🎯 Learning Style</h3>
+          <div class="preference-grid">
+            <div class="preference-option selected" onclick="selectPreference(this)">
+              <div class="preference-icon">🗣️</div><div class="preference-title">Guided</div><div class="preference-desc">Structured Q&A</div>
+            </div>
+            <div class="preference-option" onclick="selectPreference(this)">
+              <div class="preference-icon">💬</div><div class="preference-title">Conversational</div><div class="preference-desc">Free-flow talk</div>
+            </div>
+            <div class="preference-option" onclick="selectPreference(this)">
+              <div class="preference-icon">❓</div><div class="preference-title">Quiz</div><div class="preference-desc">Knowledge checks</div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <h3 class="card-title">⏱️ Call Duration</h3>
+          <div class="preference-grid">
+            <div class="preference-option" onclick="selectPreference(this)">
+              <div class="preference-icon">⚡</div><div class="preference-title">Short</div><div class="preference-desc">10-15m</div>
+            </div>
+            <div class="preference-option selected" onclick="selectPreference(this)">
+              <div class="preference-icon">⏱️</div><div class="preference-title">Standard</div><div class="preference-desc">15-25m</div>
+            </div>
+            <div class="preference-option" onclick="selectPreference(this)">
+              <div class="preference-icon">📖</div><div class="preference-title">Extended</div><div class="preference-desc">25-35m</div>
+            </div>
+          </div>
+        </div>
+        <div class="button-group">
+          <button class="btn btn-primary">Save Preferences</button>
+        </div>
+      </div>
+      <!-- Call Settings -->
+      <div id="calls" class="content-section">
+        <div class="section-header">
+          <h2 class="section-title">📞 Call Settings</h2>
+          <p class="section-subtitle">Your availability & preferences</p>
+        </div>
+        <div class="settings-card">
+          <h3 class="card-title">⏰ Available Hours</h3>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Weekdays</label>
+              <div style="display:flex;gap:.5rem;">
+                <input type="time" class="form-input" value="15:00" style="width:auto;"/><span>to</span><input type="time" class="form-input" value="20:00" style="width:auto;"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Weekends</label>
+              <div style="display:flex;gap:.5rem;">
+                <input type="time" class="form-input" value="10:00" style="width:auto;"/><span>to</span><input type="time" class="form-input" value="18:00" style="width:auto;"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="settings-card">
+          <h3 class="card-title">📱 Call Preferences</h3>
+          <div class="privacy-item"><div class="privacy-info"><h4>Call Reminders</h4><p>15m before</p></div><label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label></div>
+          <div class="privacy-item"><div class="privacy-info"><h4>Rescheduling</h4><p>Auto-reschedule missed calls</p></div><label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label></div>
+        </div>
+        <div class="button-group"><button class="btn btn-primary">Save Call Settings</button></div>
+      </div>
+      <!-- Notifications -->
+      <div id="notifications" class="content-section">
+        <div class="section-header"><h2 class="section-title">🔔 Notification Settings</h2><p class="section-subtitle">Manage notifications</p></div>
+        <div class="settings-card">
+          <h3 class="card-title">📧 Email Notifications</h3>
+          <div class="privacy-item"><div class="privacy-info"><h4>Call Reminders</h4><p>Email 1h + 15m before</p></div><label class="toggle-switch"><input type "checkbox" checked/><span class="toggle-slider"></span></label></div>
+          <div class="privacy-item"><div class="privacy-info"><h4>Learning Progress</h4><p>Weekly summary</p></div><label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label></div>
+        </div>
+        <div class="settings-card">
+          <h3 class="card-title">🔕 Do Not Disturb</h3>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Start</label><input type="time" class="form-input" value="22:00"/></div>
+            <div class="form-group"><label class="form-label">End</label><input type="time" class="form-input" value="07:00"/></div>
+          </div>
+          <label style="display:flex;align-items:center;gap:.5rem;"><input type="checkbox" checked/><span>Enable DnD</span></label>
+        </div>
+        <div class="button-group"><button class="btn btn-primary">Save Notification Settings</button></div>
+      </div>
+      <!-- Privacy -->   
+      <div id="privacy" class="content-section">
+        <div class="section-header"><h2 class="section-title">🔒 Privacy & Security</h2><p class="section-subtitle">Manage data & security</p></div>
+        <div class="alert alert-info">🛡️ <strong>Your Privacy Matters:</strong> Calltyro is COPPA compliant; your data remains private.</div>
+        <div class="settings-card">
+          <h3 class="card-title">📊 Data & Analytics</h3>
+          <div class="privacy-item"><div class="privacy-info"><h4>Analytics</h4><p>Improve recommendations</p></div><label class="toggle-switch"><input type="checkbox" checked/><span class="toggle-slider"></span></label></div>
+        </div>
+        <div class="button-group"><button class="btn btn-primary">Save Privacy Settings</button></div>
+      </div>
+    </div>
+  </main>
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('.content-section').forEach(s=>s.classList.remove('active'));
+      document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+    function selectPreference(el) {
+      el.parentElement.querySelectorAll('.preference-option').forEach(o=>o.classList.remove('selected'));
+      el.classList.add('selected');
+    }
+    function saveProfile(e){e.preventDefault();const btn=e.target.querySelector('button[type="submit"]');const txt=btn.textContent;btn.innerHTML=txt+'<span class="spinner"></span>';btn.disabled=true;setTimeout(()=>{btn.innerHTML=txt;btn.disabled=false;alert('Profile updated');},1500);}
+  </script>
+</body>
+</html>

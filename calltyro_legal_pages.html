@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calltyro - Legal Pages</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #f8fafc;
+        }
+        
+        .legal-page {
+            background: white;
+            padding: 3rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            color: #4f46e5;
+            border-bottom: 3px solid #4f46e5;
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h2 {
+            color: #1f2937;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+        
+        h3 {
+            color: #374151;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .important {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        
+        .contact-info {
+            background: #e0f2fe;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        ul {
+            margin: 1rem 0;
+            padding-left: 2rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .back-link {
+            display: inline-block;
+            background: #4f46e5;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            text-decoration: none;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .back-link:hover {
+            background: #4338ca;
+        }
+        
+        .page-nav {
+            background: #f1f5f9;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+        
+        .page-nav a {
+            color: #4f46e5;
+            text-decoration: none;
+            margin-right: 1rem;
+            font-weight: 500;
+        }
+        
+        .page-nav a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-link">← Back to Homepage</a>
+    
+    <div class="page-nav">
+        <strong>Legal Pages:</strong>
+        <a href="#privacy">Privacy Policy</a>
+        <a href="#terms">Terms of Service</a>
+        <a href="#coppa">COPPA Compliance</a>
+        <a href="#safety">Child Safety</a>
+    </div>
+
+    <!-- PRIVACY POLICY -->
+    <div id="privacy" class="legal-page">
+        <h1>Privacy Policy</h1>
+        <p><strong>Last Updated: [DATE]</strong></p>
+        
+        <div class="important">
+            <strong>Important for Parents:</strong> Calltyro is committed to protecting children's privacy. We comply with COPPA and require parental consent for users under 13.
+        </div>
+
+        <h2>1. Information We Collect</h2>
+        
+        <h3>For Users Under 13:</h3>
+        <ul>
+            <li><strong>With Parental Consent Only:</strong> Email address (parent's), phone number for calls, grade level</li>
+            <li><strong>Educational Data:</strong> Call history, learning progress, topics studied</li>
+            <li><strong>We Do NOT Collect:</strong> Full names, addresses, personal details, or any unnecessary information</li>
+        </ul>
+
+        <h3>For Users 13-17:</h3>
+        <ul>
+            <li><strong>With Parental Consent:</strong> Email, phone number, grade level, basic progress tracking</li>
+            <li>Parents maintain full control and access to all account data</li>
+        </ul>
+
+        <h3>For Adult Users (18+):</h3>
+        <ul>
+            <li>Email address and phone number for service delivery</li>
+            <li>Learning preferences and progress data</li>
+            <li>Payment information (processed securely by Stripe)</li>
+        </ul>
+
+        <h2>2. How We Use Information</h2>
+        <ul>
+            <li><strong>Educational Calls:</strong> To deliver personalized learning conversations</li>
+            <li><strong>Progress Tracking:</strong> To show learning improvement over time</li>
+            <li><strong>Safety:</strong> To ensure appropriate content for grade level</li>
+            <li><strong>Communication:</strong> To send important account updates (with parent approval for minors)</li>
+        </ul>
+
+        <h2>3. Information Sharing</h2>
+        <div class="highlight">
+            <strong>We NEVER sell, rent, or share personal information.</strong> Your data stays with Callty.
+        </div>
+
+        <p><strong>Limited Sharing Only For:</strong></p>
+        <ul>
+            <li><strong>Service Providers:</strong> Twilio (for calls), Stripe (for payments) - all COPPA compliant</li>
+            <li><strong>Legal Requirements:</strong> Only if required by law</li>
+            <li><strong>Safety:</strong> To protect children or prevent harm</li>
+        </ul>
+
+        <h2>4. Parental Rights (COPPA)</h2>
+        <p><strong>Parents have the right to:</strong></p>
+        <ul>
+            <li>Review all information collected from their child</li>
+            <li>Delete their child's account and all data</li>
+            <li>Refuse further collection of their child's information</li>
+            <li>Access call history and learning progress</li>
+            <li>Set restrictions on call times and topics</li>
+        </ul>
+
+        <h2>5. Data Security</h2>
+        <ul>
+            <li>All data encrypted in transit and at rest</li>
+            <li>Secure servers with limited access</li>
+            <li>Regular security audits and updates</li>
+            <li>No data stored longer than necessary</li>
+        </ul>
+
+        <div class="contact-info">
+            <h3>Contact Us About Privacy</h3>
+            <p><strong>Email:</strong> privacy@calltyro.com</p>
+            <p><strong>Phone:</strong> 1-214-506-8543</p>
+            <p><strong>Mail:</strong> Calltyro Privacy Officer, 539 W. Commerce Dallas, Tx 75208</p>
+        </div>
+    </div>
+
+    <!-- TERMS OF SERVICE -->
+    <div id="terms" class="legal-page">
+        <h1>Terms of Service</h1>
+        <p><strong>Last Updated: [DATE]</strong></p>
+
+        <div class="important">
+            <strong>Parental Consent Required:</strong> Users under 18 must have parental consent. Parents are responsible for managing the account.
+        </div>
+
+        <h2>1. Eligibility</h2>
+        <ul>
+            <li><strong>Under 13:</strong> Parental consent required before account creation</li>
+            <li><strong>13-17:</strong> Parental consent and supervision required</li>
+            <li><strong>18+:</strong> May use service independently</li>
+        </ul>
+
+        <h2>2. Service Description</h2>
+        <p>Callty provides educational phone calls powered by AI for learning support. All content is:</p>
+        <ul>
+            <li>Educational and curriculum-based</li>
+            <li>Age-appropriate for selected grade level</li>
+            <li>Safe and monitored</li>
+            <li>Available during reasonable hours</li>
+        </ul>
+
+        <h2>3. Acceptable Use</h2>
+        <div class="highlight">
+            <strong>Calltyro is for educational purposes only.</strong>
+        </div>
+        
+        <p><strong>You may NOT:</strong></p>
+        <ul>
+            <li>Use the service for non-educational purposes</li>
+            <li>Attempt to record or share call content without permission</li>
+            <li>Share account credentials with others</li>
+            <li>Use inappropriate language during calls</li>
+        </ul>
+
+        <h2>4. Parental Responsibilities</h2>
+        <p><strong>Parents agree to:</strong></p>
+        <ul>
+            <li>Supervise their child's use of Calltyro</li>
+            <li>Ensure phone access during scheduled call times</li>
+            <li>Monitor their child's progress and call history</li>
+            <li>Notify us of any concerns or issues</li>
+        </ul>
+
+        <h2>5. Payment and Cancellation</h2>
+        <ul>
+            <li><strong>7-day free trial</strong> for new accounts</li>
+            <li><strong>$19/month</strong> subscription after trial</li>
+            <li><strong>Cancel anytime</strong> with no fees</li>
+            <li>Refunds available within 30 days</li>
+        </ul>
+
+        <h2>6. Service Availability</h2>
+        <ul>
+            <li>Service available during posted hours</li>
+            <li>Occasional maintenance may affect availability</li>
+            <li>We reserve the right to limit call duration for fairness</li>
+        </ul>
+
+        <div class="contact-info">
+            <h3>Questions About Terms?</h3>
+            <p><strong>Email:</strong> support@calltyro.com</p>
+            <p><strong>Phone:</strong> 1-214-506-8543</p>
+        </div>
+    </div>
+
+    <!-- COPPA COMPLIANCE -->
+    <div id="coppa" class="legal-page">
+        <h1>COPPA Compliance Statement</h1>
+        
+        <div class="important">
+            <strong>Child Protection First:</strong> Calltyro strictly complies with the Children's Online Privacy Protection Act (COPPA).
+        </div>
+
+        <h2>Our COPPA Commitments</h2>
+
+        <h3>1. Parental Consent</h3>
+        <ul>
+            <li><strong>Required Before Collection:</strong> We obtain verifiable parental consent before collecting any personal information from children under 13</li>
+            <li><strong>Consent Methods:</strong> Email verification plus phone confirmation with parent</li>
+            <li><strong>Clear Disclosure:</strong> Parents receive full details about what information we collect and how we use it</li>
+        </ul>
+
+        <h3>2. Limited Data Collection</h3>
+        <div class="highlight">
+            <strong>We collect only what's necessary for the educational service:</strong>
+            <ul>
+                <li>Parent's email address (for account management)</li>
+                <li>Child's phone number (for educational calls only)</li>
+                <li>Grade level (for appropriate content)</li>
+                <li>Learning progress (to track improvement)</li>
+            </ul>
+        </div>
+
+        <h3>3. No Unnecessary Information</h3>
+        <p><strong>We do NOT collect:</strong></p>
+        <ul>
+            <li>Full names or addresses</li>
+            <li>Photos or videos</li>
+            <li>Social security numbers</li>
+            <li>Location data beyond phone number</li>
+            <li>Browsing history or cookies from children</li>
+        </ul>
+
+        <h3>4. Parental Control Rights</h3>
+        <p><strong>Parents can always:</strong></p>
+        <ul>
+            <li>Review all information we have about their child</li>
+            <li>Delete their child's account and all data</li>
+            <li>Refuse further data collection</li>
+            <li>Modify account settings and restrictions</li>
+            <li>Contact us with questions or concerns</li>
+        </ul>
+
+        <h3>5. Safe Sharing Practices</h3>
+        <ul>
+            <li><strong>No Selling:</strong> We never sell children's information</li>
+            <li><strong>Limited Sharing:</strong> Only with COPPA-compliant service providers (Twilio for calls)</li>
+            <li><strong>Secure Storage:</strong> All data encrypted and securely stored</li>
+            <li><strong>Automatic Deletion:</strong> Inactive accounts deleted after 12 months</li>
+        </ul>
+
+        <div class="contact-info">
+            <h3>COPPA Questions or Concerns</h3>
+            <p><strong>Email:</strong> privacy@calltyro.com</p>
+            <p><strong>Phone:</strong> 1-214-506-8543</p>
+            <p><strong>Mail:</strong> Calltyro COPPA Officer, 539 W. Commerce Dallas Texas 75208</p>
+            <p><em>We respond to all COPPA inquiries within 48 hours.</em></p>
+        </div>
+    </div>
+
+    <!-- CHILD SAFETY -->
+    <div id="safety" class="legal-page">
+        <h1>Child Safety & Protection</h1>
+
+        <div class="important">
+            <strong>Safety First:</strong> Your child's safety is our highest priority. Every aspect of Callty is designed with child protection in mind.
+        </div>
+
+        <h2>How We Keep Children Safe</h2>
+
+        <h3>1. Content Safety</h3>
+        <ul>
+            <li><strong>Educational Only:</strong> All content is curriculum-based and age-appropriate</li>
+            <li><strong>No Personal Questions:</strong> AI never asks for personal information during calls</li>
+            <li><strong>Grade-Level Appropriate:</strong> Content automatically matched to child's grade level</li>
+            <li><strong>Monitored Conversations:</strong> All calls follow pre-approved educational scripts</li>
+        </ul>
+
+        <h3>2. Communication Safety</h3>
+        <div class="highlight">
+            <strong>Safe Communication Practices:</strong>
+            <ul>
+                <li>Only educational phone calls - no chat or messaging</li>
+                <li>Calls during daytime hours only (8 AM - 8 PM)</li>
+                <li>Parents can set restricted call times</li>
+                <li>No personal information sharing during calls</li>
+            </ul>
+        </div>
+
+        <h3>3. Technical Safety</h3>
+        <ul>
+            <li><strong>Secure Platform:</strong> All calls encrypted and secure</li>
+            <li><strong>No Downloads:</strong> No software or apps for children to download</li>
+            <li><strong>Limited Access:</strong> Only authorized phone numbers can receive calls</li>
+            <li><strong>Automatic Limits:</strong> Call duration limits to prevent overuse</li>
+        </ul>
+
+        <h3>4. Parental Oversight</h3>
+        <p><strong>Parents Always Have:</strong></p>
+        <ul>
+            <li>Full access to call history and topics discussed</li>
+            <li>Ability to set call time restrictions</li>
+            <li>Control over which subjects are available</li>
+            <li>Option to listen to call recordings (where legally permitted)</li>
+            <li>Immediate ability to pause or cancel service</li>
+        </ul>
+
+        <h3>5. Reporting & Support</h3>
+        <div class="highlight">
+            <strong>If You Have Concerns:</strong>
+            <ul>
+                <li>Contact us immediately at safety@calltyro.com</li>
+                <li>We investigate all safety reports within 24 hours</li>
+                <li>Emergency contact: 1-214-506-8543</li>
+            </ul>
+        </div>
+
+        <h2>Red Flags to Report</h2>
+        <p><strong>Contact us immediately if:</strong></p>
+        <ul>
+            <li>Your child reports inappropriate questions or content</li>
+            <li>Calls occur outside scheduled times</li>
+            <li>Your child seems uncomfortable after a call</li>
+            <li>You notice any technical issues or security concerns</li>
+        </ul>
+
+        <h2>Safety Resources for Parents</h2>
+        <ul>
+            <li><a href="https://www.fbi.gov/investigate/violent-crime/cac">FBI's Child Safety Online</a></li>
+            <li><a href="https://www.ftc.gov/tips-advice/business-center/guidance/complying-coppa-frequently-asked-questions">FTC COPPA Guidance</a></li>
+            <li><a href="https://www.commonsensemedia.org/">Common Sense Media</a></li>
+            <li><a href="https://www.netsmartz.org/Parents">NetSmartz Parent Resources</a></li>
+        </ul>
+
+        <div class="contact-info">
+            <h3>Child Safety Contact</h3>
+            <p><strong>Emergency:</strong> safety@calltyro.com</p>
+            <p><strong>Phone:</strong> 1-214-506-8543</p>
+            <p><strong>24/7 Support:</strong> Available for safety concerns</p>
+        </div>
+    </div>
+
+    <footer style="text-align: center; margin-top: 3rem; padding: 2rem; background: #f1f5f9; border-radius: 8px;">
+        <p>This document was last updated on [DATE]. For questions about any of these policies, please contact us at legal@callty.com</p>
+    </footer>
+</body>
+</html>

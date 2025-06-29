@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calltyro - Learning Call in Progress</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            min-height: 100vh;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .call-container {
+            max-width: 600px;
+            width: 100%;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        /* Header */
+        .call-header {
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #38bdf8;
+            margin-bottom: 0.5rem;
+        }
+
+        .call-status {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        /* Main Call Interface */
+        .call-interface {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 3rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Pre-Call State */
+        .pre-call {
+            display: block;
+        }
+
+        .countdown-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #06b6d4 0%, #0284c7 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            position: relative;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7); }
+            50% { transform: scale(1.05); box-shadow: 0 0 0 20px rgba(6, 182, 212, 0); }
+        }
+
+        .countdown-time {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .call-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .call-subtitle {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            margin-bottom: 2rem;
+        }
+
+        .call-details {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: left;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .detail-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .detail-value {
+            color: white;
+            font-weight: 600;
+        }
+
+        /* During Call State */
+        .during-call {
+            display: none;
+        }
+
+        .call-active-indicator {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            animation: callPulse 1.5s infinite;
+        }
+
+        @keyframes callPulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
+            50% { transform: scale(1.1); box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); }
+        }
+
+        .phone-icon {
+            font-size: 2.5rem;
+        }
+
+        .call-timer {
+            font-size: 1.2rem;
+            color: #fbbf24;
+            margin-bottom: 1rem;
+        }
+
+        .current-topic {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+            border-left: 4px solid #38bdf8;
+        }
+
+        .topic-label {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .topic-content {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+
+        /* Post-Call State */
+        .post-call {
+            display: none;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 2rem;
+            font-size: 2.5rem;
+        }
+
+        .rating-section {
+            margin: 2rem 0;
+        }
+
+        .rating-stars {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+
+        .star {
+            font-size: 2rem;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #fbbf24;
+            transform: scale(1.1);
+        }
+
+        .feedback-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            color: white;
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .feedback-input::placeholder {
+            color: #94a3b8;
+        }
+
+        .feedback-input:focus {
+            outline: none;
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.875rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 1rem;
+            margin: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #2563eb 0%, #1e40af 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+        }
+
+        /* Call Controls */
+        .call-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 8px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 10px;
+        }
+
+        /* Preparation Tips */
+        .preparation-tips {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .tips-title {
+            color: #60a5fa;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tips-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .tips-list li {
+            color: #cbd5e1;
+            margin-bottom: 0.5rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .tips-list li::before {
+            content: '💡';
+            position: absolute;
+            left: 0;
+        }
+
+        /* Technical Help */
+        .tech-help {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            margin-top: 1rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #fbbf24;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .call-container {
+                padding: 1rem;
+            }
+
+            .call-interface {
+                padding: 2rem 1.5rem;
+            }
+
+            .countdown-circle {
+                width: 120px;
+                height: 120px;
+            }
+
+            .countdown-time {
+                font-size: 1.5rem;
+            }
+
+            .call-title {
+                font-size: 1.5rem;
+            }
+
+            .call-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Status Indicators */
+        .status-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #10b981;
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="call-container">
+        <!-- Header -->
+        <div class="call-header">
+            <div class="logo">Calltyro</div>
+            <div class="call-status">
+                <span class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span id="connectionStatus">Connected</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Main Call Interface -->
+        <div class="call-interface">
+            <!-- Pre-Call State -->
+            <div id="preCall" class="pre-call">
+                <div class="countdown-circle">
+                    <div class="countdown-time" id="countdownTimer">2:15</div>
+                </div>
+                
+                <h1 class="call-title">📞 Your Call Starts Soon!</h1>
+                <p class="call-subtitle">Get ready for an engaging conversation about literature</p>
+                
+                <div class="call-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Topic</span>
+                        <span class="detail-value" id="callTopic">Romeo and Juliet Character Analysis</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Scheduled Time</span>
+                        <span class="detail-value" id="scheduledTime">Today at 4:30 PM</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Expected Duration</span>
+                        <span class="detail-value" id="expectedDuration">~18 minutes</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Phone Number</span>
+                        <span class="detail-value" id="phoneNumber">(555) 123-4567</span>
+                    </div>
+                </div>
+
+                <div class="preparation-tips">
+                    <div class="tips-title">
+                        <span>📋</span>
+                        <span>Quick Preparation Tips</span>
+                    </div>
+                    <ul class="tips-list">
+                        <li>Find a quiet space where you can talk freely</li>
+                        <li>Have some water nearby to keep your voice clear</li>
+                        <li>Think about what you already know about the topic</li>
+                        <li>Don't worry about taking notes - just focus on the conversation</li>
+                        <li>Speak your thoughts out loud, even if you're unsure</li>
+                    </ul>
+                </div>
+
+                <div class="call-controls">
+                    <button class="btn btn-secondary" onclick="rescheduleCall()">📅 Reschedule</button>
+                    <button class="btn btn-danger" onclick="cancelCall()">❌ Cancel Call</button>
+                </div>
+
+                <div class="tech-help">
+                    <strong>📞 We'll call you:</strong> Your phone will ring at exactly the scheduled time. Answer when you see "Calltyro" or an unknown number.
+                </div>
+            </div>
+
+            <!-- During Call State -->
+            <div id="duringCall" class="during-call">
+                <div class="call-active-indicator">
+                    <div class="phone-icon">📞</div>
+                </div>
+                
+                <h1 class="call-title">🎙️ Call in Progress</h1>
+                <div class="call-timer" id="callTimer">⏱️ 05:23</div>
+                <p class="call-subtitle">Having a great conversation about literature!</p>
+
+                <div class="current-topic">
+                    <div class="topic-label">Current Discussion</div>
+                    <div class="topic-content" id="currentTopicText">
+                        "What do you think motivates Juliet's decision to take the sleeping potion? Consider her relationship with her family and her feelings about Romeo."
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <div class="progress-bar" id="callProgress" style="width: 30%"></div>
+                </div>
+
+                <div class="call-controls">
+                    <button class="btn btn-secondary" onclick="getHelp()">🆘 Technical Help</button>
+                    <button class="btn btn-danger" onclick="endCall()">📞 End Call Early</button>
+                </div>
+
+                <div class="tech-help">
+                    <strong>💬 Stay engaged:</strong> This page will update with discussion topics. Keep the conversation flowing naturally!
+                </div>
+            </div>
+
+            <!-- Post-Call State -->
+            <div id="postCall" class="post-call">
+                <div class="success-icon">✅</div>
+                
+                <h1 class="call-title">🎉 Great Job!</h1>
+                <p class="call-subtitle">You've completed your learning conversation</p>
+
+                <div class="call-details">
+                    <div class="detail-row">
+                        <span class="detail-label">Call Duration</span>
+                        <span class="detail-value" id="finalDuration">17 minutes, 42 seconds</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Topics Covered</span>
+                        <span class="detail-value">Character analysis, themes, dramatic irony</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Engagement Level</span>
+                        <span class="detail-value" style="color: #10b981;">Excellent! 🌟</span>
+                    </div>
+                </div>
+
+                <div class="rating-section">
+                    <h3 style="margin-bottom: 1rem;">How was your learning experience?</h3>
+                    <div class="rating-stars" id="ratingStars">
+                        <span class="star" onclick="setRating(1)">⭐</span>
+                        <span class="star" onclick="setRating(2)">⭐</span>
+                        <span class="star" onclick="setRating(3)">⭐</span>
+                        <span class="star" onclick="setRating(4)">⭐</span>
+                        <span class="star" onclick="setRating(5)">⭐</span>
+                    </div>
+                    <p id="ratingText" style="color: #94a3b8; font-size: 0.9rem;">Click to rate your experience</p>
+                </div>
+
+                <div style="margin: 2rem 0;">
+                    <label style="display: block; margin-bottom: 0.5rem; color: #e2e8f0;">
+                        💭 Any thoughts about today's discussion? (Optional)
+                    </label>
+                    <textarea class="feedback-input" id="feedbackText" 
+                              placeholder="What did you learn? What was challenging? Any suggestions for improvement?"></textarea>
+                </div>
+
+                <div class="call-controls">
+                    <button class="btn btn-success" onclick="submitFeedback()">Submit Feedback</button>
+                    <button class="btn btn-primary" onclick="scheduleAnother()">📞 Schedule Another Call</button>
+                    <button class="btn btn-secondary" onclick="backToDashboard()">🏠 Back to Dashboard</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Call state management
+        let callState = 'pre'; // 'pre', 'during', 'post'
+        let callStartTime = null;
+        let countdownInterval = null;
+        let callTimerInterval = null;
+        let selectedRating = 0;
+
+        // Sample call data (would come from URL params or API in real app)
+        const callData = {
+            topic: "Romeo and Juliet Character Analysis",
+            scheduledTime: new Date(Date.now() + 2 * 60 * 1000), // 2 minutes from now
+            duration: 18,
+            phone: "(555) 123-4567"
+        };
+
+        // Initialize page
+        window.addEventListener('load', function() {
+            // Check URL parameters for call ID
+            const urlParams = new URLSearchParams(window.location.search);
+            const callId = urlParams.get('call');
+            const state = urlParams.get('state') || 'pre';
+            
+            if (callId) {
+                // In real implementation, load call data from API
+                console.log('Loading call:', callId);
+            }
+
+            // Set initial state
+            setState(state);
+            populateCallDetails();
+            
+            // Start countdown if in pre-call state
+            if (state === 'pre') {
+                startCountdown();
+            } else if (state === 'during') {
+                startCallTimer();
+            }
+        });
+
+        // State management
+        function setState(state) {
+            callState = state;
+            
+            // Hide all states
+            document.getElementById('preCall').style.display = 'none';
+            document.getElementById('duringCall').style.display = 'none';
+            document.getElementById('postCall').style.display = 'none';
+            
+            // Show current state
+            document.getElementById(state + 'Call').style.display = 'block';
+            
+            // Update page title
+            switch (state) {
+                case 'pre':
+                    document.title = 'Calltyro - Your Call Starts Soon';
+                    break;
+                case 'during':
+                    document.title = 'Calltyro - Call in Progress';
+                    break;
+                case 'post':
+                    document.title = 'Calltyro - Call Completed';
+                    break;
+            }
+        }
+
+        // Populate call details
+        function populateCallDetails() {
+            document.getElementById('callTopic').textContent = callData.topic;
+            document.getElementById('scheduledTime').textContent = formatTime(callData.scheduledTime);
+            document.getElementById('expectedDuration').textContent = `~${callData.duration} minutes`;
+            document.getElementById('phoneNumber').textContent = callData.phone;
+        }
+
+        // Countdown timer for pre-call
+        function startCountdown() {
+            countdownInterval = setInterval(() => {
+                const now = new Date();
+                const timeLeft = callData.scheduledTime - now;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(countdownInterval);
+                    // Simulate call starting
+                    setTimeout(() => {
+                        setState('during');
+                        startCallTimer();
+                    }, 1000);
+                    return;
+                }
+                
+                const minutes = Math.floor(timeLeft / 60000);
+                const seconds = Math.floor((timeLeft % 60000) / 1000);
+                document.getElementById('countdownTimer').textContent = 
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }, 1000);
+        }
+
+        // Call timer for during call
+        function startCallTimer() {
+            callStartTime = new Date();
+            
+            callTimerInterval = setInterval(() => {
+                const elapsed = new Date() - callStartTime;
+                const minutes = Math.floor(elapsed / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+                
+                document.getElementById('callTimer').textContent = 
+                    `⏱️ ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Update progress bar (simulate 18-minute call)
+                const progressPercent = Math.min((elapsed / (18 * 60000)) * 100, 100);
+                document.getElementById('callProgress').style.width = progressPercent + '%';
+                
+                // Simulate topic changes
+                updateCurrentTopic(Math.floor(elapsed / 60000));
+                
+                // Auto-end call after demo duration (shortened for testing)
+                if (elapsed >= 30000) { // 30 seconds for demo
+                    clearInterval(callTimerInterval);
+                    setTimeout(() => {
+                        setState('post');
+                        populatePostCallData();
+                    }, 1000);
+                }
+            }, 1000);
+        }
+
+        // Update current topic during call (simulation)
+        function updateCurrentTopic(minutes) {
+            const topics = [
+                "Let's start by discussing what you already know about Romeo and Juliet. What stands out to you about these characters?",
+                "What do you think motivates Juliet's decision to take the sleeping potion? Consider her relationship with her family and her feelings about Romeo.",
+                "How does Shakespeare use dramatic irony in the balcony scene? What do we know that the characters don't?",
+                "Let's explore the theme of fate versus free will. Do you think the characters are in control of their destiny?",
+                "What role does the nurse play in Juliet's life? How does this relationship contrast with Juliet's relationship with her mother?"
+            ];
+            
+            if (minutes < topics.length) {
+                document.getElementById('currentTopicText').textContent = topics[minutes];
+            }
+        }
+
+        // Populate post-call data
+        function populatePostCallData() {
+            const callDuration = new Date() - callStartTime;
+            const minutes = Math.floor(callDuration / 60000);
+            const seconds = Math.floor((callDuration % 60000) / 1000);
+            
+            document.getElementById('finalDuration').textContent = 
+                `${minutes} minutes, ${seconds} seconds`;
+        }
+
+        // Rating system
+        function setRating(rating) {
+            selectedRating = rating;
+            
+            const stars = document.querySelectorAll('.star');
+            stars.forEach((star, index) => {
+                if (index < rating) {
+                    star.classList.add('active');
+                } else {
+                    star.classList.remove('active');
+                }
+            });
+            
+            const ratingTexts = [
+                '', // 0 stars
+                'Poor - Needs improvement',
+                'Fair - Could be better', 
+                'Good - Enjoyed it',
+                'Very Good - Great experience',
+                'Excellent - Loved it!'
+            ];
+            
+            document.getElementById('ratingText').textContent = ratingTexts[rating];
+        }
+
+        // Pre-call actions
+        function rescheduleCall() {
+            if (confirm('Are you sure you want to reschedule this call?')) {
+                window.location.href = 'schedule-call.html?reschedule=true';
+            }
+        }
+
+        function cancelCall() {
+            if (confirm('Are you sure you want to cancel this call?')) {
+                // In real implementation, send cancellation to API
+                alert('Your call has been cancelled. You can schedule a new one anytime.');
+                window.location.href = 'dashboard.html';
+            }
+        }
+
+        // During call actions
+        function getHelp() {
+            alert('Technical Help:\n\n• If you can\'t hear clearly, check your volume\n• Make sure you\'re in a quiet environment\n• Speak clearly and at a normal pace\n• If the call drops, we\'ll call you back within 1 minute\n\nFor immediate assistance, text "HELP" to (555) 123-4567');
+        }
+
+        function endCall() {
+            if (confirm('Are you sure you want to end the call early?')) {
+                clearInterval(callTimerInterval);
+                setState('post');
+                populatePostCallData();
+            }
+        }
+
+        // Post-call actions
+        function submitFeedback() {
+            const feedback = document.getElementById('feedbackText').value;
+            
+            if (selectedRating === 0) {
+                alert('Please rate your experience before submitting feedback.');
+                return;
+            }
+            
+            // In real implementation, send to API
+            const feedbackData = {
+                rating: selectedRating,
+                feedback: feedback,
+                callDuration: new Date() - callStartTime
+            };
+            
+            console.log('Submitting feedback:', feedbackData);
+            alert('Thank you for your feedback! It helps us improve the learning experience.');
+            
+            // Redirect to dashboard
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1000);
+        }
+
+        function scheduleAnother() {
+            window.location.href = 'schedule-call.html';
+        }
+
+        function backToDashboard() {
+            window.location.href = 'dashboard.html';
+        }
+
+        // Utility functions
+        function formatTime(date) {
+            const now = new Date();
+            const isToday = date.toDateString() === now.toDateString();
+            const isTomorrow = date.toDateString() === new Date(now.getTime() + 24*60*60*1000).toDateString();
+            
+            let dayText;
+            if (isToday) dayText = 'Today';
+            else if (isTomorrow) dayText = 'Tomorrow';
+            else dayText = date.toLocaleDateString();
+            
+            const timeText = date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            return `${dayText} at ${timeText}`;
+        }
+
+        // Handle page visibility for call timer accuracy
+        document.addEventListener('visibilitychange', function() {
+            if (document.hidden && callState === 'during') {
+                // Pause timer when page is hidden
+                if (callTimerInterval) {
+                    clearInterval(callTimerInterval);
+                }
+            } else if (callState === 'during') {
+                // Resume timer when page becomes visible
+                startCallTimer();
+            }
+        });
+
+        // Prevent accidental page reload during call
+        window.addEventListener('beforeunload', function(e) {
+            if (callState === 'during') {
+                e.preventDefault();
+                e.returnValue = 'You have an active call in progress. Are you sure you want to leave?';
+            }
+        });
+
+        // Simulate different states for testing
+        console.log('🎯 Calltyro Call Interface loaded!');
+        console.log('📱 Test different states by adding ?state=pre, ?state=during, or ?state=post to the URL');
+        console.log('⏱️ In "during" state, the call will auto-complete after 30 seconds for demo purposes');
+    </script>
+</body>
+</html>

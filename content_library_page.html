@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calltyro - Learning Topics Library</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nav-link {
+            color: #6b7280;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: #4f46e5;
+        }
+
+        .back-btn {
+            background: #4f46e5;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #4338ca;
+        }
+
+        /* Main Content */
+        .main-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-section h1 {
+            font-size: 2.5rem;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .hero-section p {
+            font-size: 1.2rem;
+            color: #6b7280;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Search and Filters */
+        .search-filters {
+            background: white;
+            padding: 2rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 2rem;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.875rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .search-btn {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 0.875rem 1.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            background: #4338ca;
+        }
+
+        .filters-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            align-items: end;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .filter-label {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .filter-select {
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            background: white;
+            transition: border-color 0.3s ease;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: #4f46e5;
+        }
+
+        .clear-filters {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+        }
+
+        .clear-filters:hover {
+            background: #dc2626;
+        }
+
+        /* Subject Categories */
+        .subject-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+        }
+
+        .subject-tab {
+            background: white;
+            color: #6b7280;
+            border: 2px solid #e5e7eb;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .subject-tab:hover, .subject-tab.active {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+
+        /* Results Info */
+        .results-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .results-count {
+            color: #6b7280;
+            font-size: 0.95rem;
+        }
+
+        .sort-dropdown {
+            padding: 0.5rem;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            background: white;
+            font-size: 0.875rem;
+        }
+
+        /* Topic Grid */
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .topic-card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            border-color: #4f46e5;
+        }
+
+        .topic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+
+        .topic-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .topic-icon.literature {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .topic-icon.science {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .topic-icon.history {
+            background: #fce7f3;
+            color: #e91e63;
+        }
+
+        .topic-icon.math {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .topic-icon.english {
+            background: #f3e8ff;
+            color: #8b5cf6;
+        }
+
+        .topic-icon.social-studies {
+            background: #fef2f2;
+            color: #ef4444;
+        }
+
+        .topic-meta {
+            text-align: right;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        .topic-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+            line-height: 1.3;
+        }
+
+        .topic-description {
+            color: #6b7280;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .topic-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .topic-tag {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .topic-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .topic-details {
+            font-size: 0.875rem;
+            color: #6b7280;
+        }
+
+        .schedule-btn {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .schedule-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        /* Loading States */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+            color: #6b7280;
+        }
+
+        .spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #4f46e5;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #6b7280;
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 0.5rem;
+            color: #374151;
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .page-btn {
+            background: white;
+            color: #6b7280;
+            border: 1px solid #d1d5db;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .page-btn:hover, .page-btn.active {
+            background: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 1rem;
+            }
+
+            .hero-section h1 {
+                font-size: 2rem;
+            }
+
+            .search-filters {
+                padding: 1.5rem;
+            }
+
+            .search-bar {
+                flex-direction: column;
+            }
+
+            .filters-row {
+                grid-template-columns: 1fr;
+            }
+
+            .topics-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header-content {
+                padding: 0 1rem;
+            }
+
+            .nav-menu {
+                gap: 1rem;
+            }
+
+            .nav-link {
+                display: none;
+            }
+
+            .subject-tabs {
+                justify-content: flex-start;
+            }
+
+            .results-info {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">Calltyro</a>
+            <nav class="nav-menu">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="content-library.html" class="nav-link active">Topics</a>
+                <a href="progress.html" class="nav-link">Progress</a>
+                <a href="dashboard.html" class="back-btn">← Back to Dashboard</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-container">
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <h1>📚 Learning Topics Library</h1>
+            <p>Explore hundreds of educational topics designed for engaging voice conversations. Choose what you want to learn today!</p>
+        </section>
+
+        <!-- Search and Filters -->
+        <section class="search-filters">
+            <div class="search-bar">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search topics... (e.g., 'Romeo and Juliet', 'photosynthesis', 'Civil War')">
+                <button class="search-btn" onclick="searchTopics()">🔍 Search</button>
+            </div>
+
+            <div class="filters-row">
+                <div class="filter-group">
+                    <label class="filter-label">Grade Level</label>
+                    <select class="filter-select" id="gradeFilter" onchange="filterTopics()">
+                        <option value="">All Grades</option>
+                        <option value="k-2">K-2nd Grade</option>
+                        <option value="3-5">3rd-5th Grade</option>
+                        <option value="6-8">6th-8th Grade</option>
+                        <option value="9-12">9th-12th Grade</option>
+                        <option value="college">College</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Duration</label>
+                    <select class="filter-select" id="durationFilter" onchange="filterTopics()">
+                        <option value="">Any Length</option>
+                        <option value="short">Short (10-15 min)</option>
+                        <option value="medium">Medium (15-25 min)</option>
+                        <option value="long">Long (25+ min)</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label class="filter-label">Difficulty</label>
+                    <select class="filter-select" id="difficultyFilter" onchange="filterTopics()">
+                        <option value="">All Levels</option>
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <button class="clear-filters" onclick="clearAllFilters()">Clear Filters</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Subject Tabs -->
+        <section class="subject-tabs" id="subjectTabs">
+            <button class="subject-tab active" onclick="filterBySubject('')">All Subjects</button>
+            <button class="subject-tab" onclick="filterBySubject('Literature')">📖 Literature</button>
+            <button class="subject-tab" onclick="filterBySubject('Science')">🔬 Science</button>
+            <button class="subject-tab" onclick="filterBySubject('History')">🏛️ History</button>
+            <button class="subject-tab" onclick="filterBySubject('Math')">🔢 Math</button>
+            <button class="subject-tab" onclick="filterBySubject('English')">📝 English</button>
+            <button class="subject-tab" onclick="filterBySubject('Social Studies')">🌎 Social Studies</button>
+        </section>
+
+        <!-- Results Info -->
+        <section class="results-info">
+            <div class="results-count" id="resultsCount">Loading topics...</div>
+            <select class="sort-dropdown" id="sortBy" onchange="sortTopics()">
+                <option value="title">Sort by Title</option>
+                <option value="duration">Sort by Duration</option>
+                <option value="difficulty">Sort by Difficulty</option>
+                <option value="popularity">Sort by Popularity</option>
+            </select>
+        </section>
+
+        <!-- Loading State -->
+        <div class="loading" id="loadingState">
+            <div class="spinner"></div>
+            <p>Loading learning topics...</p>
+        </div>
+
+        <!-- Topics Grid -->
+        <section class="topics-grid" id="topicsGrid">
+            <!-- Topics will be populated by JavaScript -->
+        </section>
+
+        <!-- Pagination -->
+        <nav class="pagination" id="pagination">
+            <!-- Pagination will be populated by JavaScript -->
+        </nav>
+    </main>
+
+    <script>
+        const API_BASE_URL = 'https://your-domain.com/api'; // Update this!
+        
+        let allTopics = [];
+        let filteredTopics = [];
+        let currentPage = 1;
+        let topicsPerPage = 12;
+        let currentFilters = {
+            subject: '',
+            grade: '',
+            duration: '',
+            difficulty: '',
+            search: ''
+        };
+
+        // Initialize page
+        window.addEventListener('load', function() {
+            loadTopics();
+        });
+
+        // Load topics from API or use sample data
+        async function loadTopics() {
+            const loadingState = document.getElementById('loadingState');
+            loadingState.style.display = 'block';
+
+            try {
+                const token = localStorage.getItem('calltyro_token');
+                
+                // FOR TESTING: Use sample data if no backend
+                if (!token) {
+                    setTimeout(() => {
+                        allTopics = getSampleTopics();
+                        filteredTopics = [...allTopics];
+                        displayTopics();
+                        loadingState.style.display = 'none';
+                    }, 1000);
+                    return;
+                }
+
+                const response = await fetch(`${API_BASE_URL}/content/topics`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    allTopics = data.topics;
+                    filteredTopics = [...allTopics];
+                    displayTopics();
+                } else {
+                    throw new Error('Failed to load topics');
+                }
+            } catch (error) {
+                console.error('Error loading topics:', error);
+                // Fallback to sample data
+                allTopics = getSampleTopics();
+                filteredTopics = [...allTopics];
+                displayTopics();
+            } finally {
+                loadingState.style.display = 'none';
+            }
+        }
+
+        // Sample topics for testing
+        function getSampleTopics() {
+            return [
+                {
+                    id: 1,
+                    title: 'Romeo and Juliet Character Analysis',
+                    description: 'Explore the complex characters in Shakespeare\'s famous tragedy. Discuss character motivations, relationships, and how they drive the plot forward.',
+                    subject: 'Literature',
+                    grade_levels: ['9-12'],
+                    difficulty_level: 'intermediate',
+                    estimated_duration: 18,
+                    tags: ['Shakespeare', 'Character Study', 'Drama'],
+                    popularity_score: 95
+                },
+                {
+                    id: 2,
+                    title: 'Photosynthesis Process',
+                    description: 'Understanding how plants convert sunlight, carbon dioxide, and water into glucose and oxygen. Perfect introduction to plant biology.',
+                    subject: 'Science',
+                    grade_levels: ['6-8', '9-12'],
+                    difficulty_level: 'beginner',
+                    estimated_duration: 15,
+                    tags: ['Biology', 'Plants', 'Energy'],
+                    popularity_score: 87
+                },
+                {
+                    id: 3,
+                    title: 'Civil War Causes and Effects',
+                    description: 'Discuss the political, economic, and social factors that led to the American Civil War and its lasting impact on the nation.',
+                    subject: 'History',
+                    grade_levels: ['6-8', '9-12'],
+                    difficulty_level: 'intermediate',
+                    estimated_duration: 22,
+                    tags: ['American History', 'Politics', 'Social Change'],
+                    popularity_score: 78
+                },
+                {
+                    id: 4,
+                    title: 'Algebra Word Problems',
+                    description: 'Practice solving real-world problems using algebraic thinking. Learn to translate word problems into mathematical equations.',
+                    subject: 'Math',
+                    grade_levels: ['6-8', '9-12'],
+                    difficulty_level: 'intermediate',
+                    estimated_duration: 20,
+                    tags: ['Algebra', 'Problem Solving', 'Real World'],
+                    popularity_score: 82
+                },
+                {
+                    id: 5,
+                    title: 'The Great Gatsby Symbolism',
+                    description: 'Analyze F. Scott Fitzgerald\'s use of symbols like the green light, eyes of T.J. Eckleburg, and the Valley of Ashes.',
+                    subject: 'Literature',
+                    grade_levels: ['9-12', 'college'],
+                    difficulty_level: 'advanced',
+                    estimated_duration: 25,
+                    tags: ['Symbolism', 'American Literature', 'Jazz Age'],
+                    popularity_score: 91
+                },
+                {
+                    id: 6,
+                    title: 'Chemical Reactions and Energy',
+                    description: 'Explore different types of chemical reactions and how energy is absorbed or released during these processes.',
+                    subject: 'Science',
+                    grade_levels: ['9-12'],
+                    difficulty_level: 'intermediate',
+                    estimated_duration: 18,
+                    tags: ['Chemistry', 'Energy', 'Reactions'],
+                    popularity_score: 75
+                },
+                {
+                    id: 7,
+                    title: 'World War 2 Timeline',
+                    description: 'Walk through the major events of WWII from 1939-1945, discussing key battles, political decisions, and turning points.',
+                    subject: 'History',
+                    grade_levels: ['6-8', '9-12'],
+                    difficulty_level: 'intermediate',
+                    estimated_duration: 28,
+                    tags: ['World War', 'Timeline', 'Global History'],
+                    popularity_score: 89
+                },
+                {
+                    id: 8,
+                    title: 'Geometry in Architecture',
+                    description: 'Discover how geometric principles are used in building design, from ancient pyramids to modern skyscrapers.',
+                    subject: 'Math',
+                    grade_levels: ['6-8', '9-12'],
+                    difficulty_level: 'beginner',
+                    estimated_duration: 16,
+                    tags: ['Geometry', 'Architecture', 'Real World'],
+                    popularity_score: 73
+                }
+            ];
+        }
+
+        // Display topics in grid
+        function displayTopics() {
+            const grid = document.getElementById('topicsGrid');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            if (filteredTopics.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <div class="empty-icon">🔍</div>
+                        <h3>No topics found</h3>
+                        <p>Try adjusting your search or filters to find more topics.</p>
+                    </div>
+                `;
+                resultsCount.textContent = 'No topics found';
+                return;
+            }
+
+            // Pagination
+            const startIndex = (currentPage - 1) * topicsPerPage;
+            const endIndex = startIndex + topicsPerPage;
+            const topicsToShow = filteredTopics.slice(startIndex, endIndex);
+
+            grid.innerHTML = topicsToShow.map(topic => `
+                <div class="topic-card">
+                    <div class="topic-header">
+                        <div class="topic-icon ${topic.subject.toLowerCase().replace(' ', '-')}">
+                            ${getSubjectIcon(topic.subject)}
+                        </div>
+                        <div class="topic-meta">
+                            ${topic.estimated_duration} min<br>
+                            ${topic.difficulty_level}
+                        </div>
+                    </div>
+                    
+                    <h3 class="topic-title">${topic.title}</h3>
+                    <p class="topic-description">${topic.description}</p>
+                    
+                    <div class="topic-tags">
+                        ${topic.tags.map(tag => `<span class="topic-tag">${tag}</span>`).join('')}
+                    </div>
+                    
+                    <div class="topic-footer">
+                        <div class="topic-details">
+                            ${topic.subject} • Grades ${topic.grade_levels.join(', ')}
+                        </div>
+                        <a href="schedule-call.html?topic=${topic.id}" class="schedule-btn">
+                            Schedule Call
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+
+            // Update results count
+            resultsCount.textContent = `Showing ${startIndex + 1}-${Math.min(endIndex, filteredTopics.length)} of ${filteredTopics.length} topics`;
+
+            // Update pagination
+            updatePagination();
+        }
+
+        // Filter topics
+        function filterTopics() {
+            currentFilters.grade = document.getElementById('gradeFilter').value;
+            currentFilters.duration = document.getElementById('durationFilter').value;
+            currentFilters.difficulty = document.getElementById('difficultyFilter').value;
+            
+            applyFilters();
+        }
+
+        // Filter by subject
+        function filterBySubject(subject) {
+            currentFilters.subject = subject;
+            
+            // Update active tab
+            document.querySelectorAll('.subject-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            applyFilters();
+        }
+
+        // Search topics
+        function searchTopics() {
+            currentFilters.search = document.getElementById('searchInput').value.toLowerCase();
+            applyFilters();
+        }
+
+        // Apply all filters
+        function applyFilters() {
+            filteredTopics = allTopics.filter(topic => {
+                // Subject filter
+                if (currentFilters.subject && topic.subject !== currentFilters.subject) {
+                    return false;
+                }
+                
+                // Grade filter
+                if (currentFilters.grade && !topic.grade_levels.includes(currentFilters.grade)) {
+                    return false;
+                }
+                
+                // Duration filter
+                if (currentFilters.duration) {
+                    const duration = topic.estimated_duration;
+                    if (currentFilters.duration === 'short' && duration > 15) return false;
+                    if (currentFilters.duration === 'medium' && (duration <= 15 || duration > 25)) return false;
+                    if (currentFilters.duration === 'long' && duration <= 25) return false;
+                }
+                
+                // Difficulty filter
+                if (currentFilters.difficulty && topic.difficulty_level !== currentFilters.difficulty) {
+                    return false;
+                }
+                
+                // Search filter
+                if (currentFilters.search) {
+                    const searchTerm = currentFilters.search;
+                    return topic.title.toLowerCase().includes(searchTerm) ||
+                           topic.description.toLowerCase().includes(searchTerm) ||
+                           topic.tags.some(tag => tag.toLowerCase().includes(searchTerm));
+                }
+                
+                return true;
+            });
+
+            currentPage = 1; // Reset to first page
+            displayTopics();
+        }
+
+        // Clear all filters
+        function clearAllFilters() {
+            currentFilters = {
+                subject: '',
+                grade: '',
+                duration: '',
+                difficulty: '',
+                search: ''
+            };
+            
+            document.getElementById('gradeFilter').value = '';
+            document.getElementById('durationFilter').value = '';
+            document.getElementById('difficultyFilter').value = '';
+            document.getElementById('searchInput').value = '';
+            
+            // Reset subject tabs
+            document.querySelectorAll('.subject-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector('.subject-tab').classList.add('active');
+            
+            filteredTopics = [...allTopics];
+            currentPage = 1;
+            displayTopics();
+        }
+
+        // Sort topics
+        function sortTopics() {
+            const sortBy = document.getElementById('sortBy').value;
+            
+            filteredTopics.sort((a, b) => {
+                switch (sortBy) {
+                    case 'title':
+                        return a.title.localeCompare(b.title);
+                    case 'duration':
+                        return a.estimated_duration - b.estimated_duration;
+                    case 'difficulty':
+                        const difficultyOrder = { 'beginner': 1, 'intermediate': 2, 'advanced': 3 };
+                        return difficultyOrder[a.difficulty_level] - difficultyOrder[b.difficulty_level];
+                    case 'popularity':
+                        return b.popularity_score - a.popularity_score;
+                    default:
+                        return 0;
+                }
+            });
+            
+            displayTopics();
+        }
+
+        // Update pagination
+        function updatePagination() {
+            const pagination = document.getElementById('pagination');
+            const totalPages = Math.ceil(filteredTopics.length / topicsPerPage);
+            
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+            
+            let paginationHTML = '';
+            
+            // Previous button
+            paginationHTML += `
+                <button class="page-btn" onclick="changePage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>
+                    ← Previous
+                </button>
+            `;
+            
+            // Page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === currentPage || i === 1 || i === totalPages || (i >= currentPage - 1 && i <= currentPage + 1)) {
+                    paginationHTML += `
+                        <button class="page-btn ${i === currentPage ? 'active' : ''}" onclick="changePage(${i})">
+                            ${i}
+                        </button>
+                    `;
+                } else if (i === currentPage - 2 || i === currentPage + 2) {
+                    paginationHTML += '<span class="page-btn">...</span>';
+                }
+            }
+            
+            // Next button
+            paginationHTML += `
+                <button class="page-btn" onclick="changePage(${currentPage + 1})" ${currentPage === totalPages ? 'disabled' : ''}>
+                    Next →
+                </button>
+            `;
+            
+            pagination.innerHTML = paginationHTML;
+        }
+
+        // Change page
+        function changePage(page) {
+            const totalPages = Math.ceil(filteredTopics.length / topicsPerPage);
+            if (page < 1 || page > totalPages) return;
+            
+            currentPage = page;
+            displayTopics();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Utility functions
+        function getSubjectIcon(subject) {
+            const icons = {
+                'Literature': '📖',
+                'Science': '🔬',
+                'History': '🏛️',
+                'Math': '🔢',
+                'English': '📝',
+                'Social Studies': '🌎'
+            };
+            return icons[subject] || '📚';
+        }
+
+        // Add search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchTopics();
+            }
+        });
+    </script>
+</body>
+</html>

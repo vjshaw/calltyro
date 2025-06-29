@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calltyro - Join the Learning Revolution</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .auth-container {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 450px;
+            margin: 20px;
+        }
+
+        .auth-header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .auth-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .auth-header p {
+            opacity: 0.9;
+            font-size: 1rem;
+        }
+
+        .auth-form {
+            padding: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #374151;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        .form-group.error input {
+            border-color: #ef4444;
+        }
+
+        .error-message {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+
+        .success-message {
+            background: #10b981;
+            color: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: none;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.875rem;
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auth-switch {
+            text-align: center;
+            padding: 1rem;
+            background: #f9fafb;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        .auth-switch a {
+            color: #4f46e5;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .auth-switch a:hover {
+            text-decoration: underline;
+        }
+
+        .back-home {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .spinner {
+            border: 3px solid #f3f4f6;
+            border-top: 3px solid #4f46e5;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .password-strength {
+            margin-top: 0.5rem;
+        }
+
+        .strength-bar {
+            height: 4px;
+            background: #e5e7eb;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .strength-fill {
+            height: 100%;
+            transition: all 0.3s ease;
+            width: 0%;
+        }
+
+        .strength-weak { background: #ef4444; width: 25%; }
+        .strength-fair { background: #f59e0b; width: 50%; }
+        .strength-good { background: #10b981; width: 75%; }
+        .strength-strong { background: #059669; width: 100%; }
+
+        .strength-text {
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+            color: #6b7280;
+        }
+
+        /* Different forms - only show active one */
+        .auth-form.hidden {
+            display: none;
+        }
+
+        @media (max-width: 480px) {
+            .auth-container {
+                margin: 10px;
+            }
+            
+            .auth-header {
+                padding: 1.5rem;
+            }
+            
+            .auth-form {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" class="back-home">← Back to Home</a>
+
+    <div class="auth-container">
+        <!-- Registration Form -->
+        <div id="register-form" class="auth-form">
+            <div class="auth-header">
+                <h1>Join Calltyro</h1>
+                <p>Start learning through conversation today</p>
+            </div>
+            
+            <form id="registrationForm" class="auth-form">
+                <div class="success-message" id="register-success"></div>
+                
+                <div class="form-group">
+                    <label for="register-email">Email Address</label>
+                    <input type="email" id="register-email" name="email" required>
+                    <div class="error-message" id="email-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-phone">Phone Number</label>
+                    <input type="tel" id="register-phone" name="phone" placeholder="+1 (555) 123-4567" required>
+                    <div class="error-message" id="phone-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="grade-level">Grade Level</label>
+                    <select id="grade-level" name="gradeLevel" required>
+                        <option value="">Select your grade level</option>
+                        <option value="k-2">Kindergarten - 2nd Grade</option>
+                        <option value="3-5">3rd - 5th Grade</option>
+                        <option value="6-8">6th - 8th Grade (Middle School)</option>
+                        <option value="9-12">9th - 12th Grade (High School)</option>
+                        <option value="college">College/University</option>
+                        <option value="adult">Adult Learner</option>
+                    </select>
+                    <div class="error-message" id="grade-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="register-password">Password</label>
+                    <input type="password" id="register-password" name="password" required>
+                    <div class="password-strength">
+                        <div class="strength-bar">
+                            <div class="strength-fill" id="strength-fill"></div>
+                        </div>
+                        <div class="strength-text" id="strength-text">Password strength</div>
+                    </div>
+                    <div class="error-message" id="password-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirm-password">Confirm Password</label>
+                    <input type="password" id="confirm-password" name="confirmPassword" required>
+                    <div class="error-message" id="confirm-error"></div>
+                </div>
+
+                <button type="submit" class="btn" id="register-btn">Create My Account</button>
+                
+                <div class="loading" id="register-loading">
+                    <div class="spinner"></div>
+                    <p>Creating your account...</p>
+                </div>
+            </form>
+
+            <div class="auth-switch">
+                Already have an account? <a href="#" onclick="showLogin()">Sign in here</a>
+            </div>
+        </div>
+
+        <!-- Login Form -->
+        <div id="login-form" class="auth-form hidden">
+            <div class="auth-header">
+                <h1>Welcome Back</h1>
+                <p>Continue your learning journey</p>
+            </div>
+            
+            <form id="loginForm" class="auth-form">
+                <div class="success-message" id="login-success"></div>
+                
+                <div class="form-group">
+                    <label for="login-email">Email Address</label>
+                    <input type="email" id="login-email" name="email" required>
+                    <div class="error-message" id="login-email-error"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" name="password" required>
+                    <div class="error-message" id="login-password-error"></div>
+                </div>
+
+                <button type="submit" class="btn" id="login-btn">Sign In</button>
+                
+                <div class="loading" id="login-loading">
+                    <div class="spinner"></div>
+                    <p>Signing you in...</p>
+                </div>
+            </form>
+
+            <div class="auth-switch">
+                <a href="#" onclick="showPasswordReset()">Forgot your password?</a><br><br>
+                Don't have an account? <a href="#" onclick="showRegister()">Sign up here</a>
+            </div>
+        </div>
+
+        <!-- Password Reset Form -->
+        <div id="reset-form" class="auth-form hidden">
+            <div class="auth-header">
+                <h1>Reset Password</h1>
+                <p>We'll send you a reset link</p>
+            </div>
+            
+            <form id="resetForm" class="auth-form">
+                <div class="success-message" id="reset-success"></div>
+                
+                <div class="form-group">
+                    <label for="reset-email">Email Address</label>
+                    <input type="email" id="reset-email" name="email" required>
+                    <div class="error-message" id="reset-email-error"></div>
+                </div>
+
+                <button type="submit" class="btn" id="reset-btn">Send Reset Link</button>
+                
+                <div class="loading" id="reset-loading">
+                    <div class="spinner"></div>
+                    <p>Sending reset link...</p>
+                </div>
+            </form>
+
+            <div class="auth-switch">
+                Remember your password? <a href="#" onclick="showLogin()">Sign in here</a><br><br>
+                Don't have an account? <a href="#" onclick="showRegister()">Sign up here</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configuration - Update these URLs to match your backend
+        const API_BASE_URL = 'https://calltyro.com/api'; // Update this!
+
+        // Form switching functions
+        function showRegister() {
+            document.getElementById('register-form').classList.remove('hidden');
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('reset-form').classList.add('hidden');
+        }
+
+        function showLogin() {
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('register-form').classList.add('hidden');
+            document.getElementById('reset-form').classList.add('hidden');
+        }
+
+        function showPasswordReset() {
+            document.getElementById('reset-form').classList.remove('hidden');
+            document.getElementById('register-form').classList.add('hidden');
+            document.getElementById('login-form').classList.add('hidden');
+        }
+
+        // Utility functions
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            const inputGroup = errorElement.closest('.form-group');
+            errorElement.textContent = message;
+            errorElement.classList.add('show');
+            inputGroup.classList.add('error');
+        }
+
+        function clearError(elementId) {
+            const errorElement = document.getElementById(elementId);
+            const inputGroup = errorElement.closest('.form-group');
+            errorElement.classList.remove('show');
+            inputGroup.classList.remove('error');
+        }
+
+        function showSuccess(elementId, message) {
+            const successElement = document.getElementById(elementId);
+            successElement.textContent = message;
+            successElement.classList.add('show');
+        }
+
+        function showLoading(formType, show) {
+            const button = document.getElementById(`${formType}-btn`);
+            const loading = document.getElementById(`${formType}-loading`);
+            
+            if (show) {
+                button.style.display = 'none';
+                loading.style.display = 'block';
+            } else {
+                button.style.display = 'block';
+                loading.style.display = 'none';
+            }
+        }
+
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            const strengthFill = document.getElementById('strength-fill');
+            const strengthText = document.getElementById('strength-text');
+            
+            let score = 0;
+            let feedback = '';
+            
+            if (password.length >= 8) score++;
+            if (/[a-z]/.test(password)) score++;
+            if (/[A-Z]/.test(password)) score++;
+            if (/[0-9]/.test(password)) score++;
+            if (/[^A-Za-z0-9]/.test(password)) score++;
+            
+            strengthFill.className = 'strength-fill';
+            
+            if (score < 2) {
+                strengthFill.classList.add('strength-weak');
+                feedback = 'Weak password';
+            } else if (score < 3) {
+                strengthFill.classList.add('strength-fair');
+                feedback = 'Fair password';
+            } else if (score < 4) {
+                strengthFill.classList.add('strength-good');
+                feedback = 'Good password';
+            } else {
+                strengthFill.classList.add('strength-strong');
+                feedback = 'Strong password';
+            }
+            
+            strengthText.textContent = feedback;
+        }
+
+        // Phone number formatting
+        function formatPhoneNumber(input) {
+            const number = input.value.replace(/\D/g, '');
+            if (number.length === 10) {
+                input.value = `(${number.slice(0,3)}) ${number.slice(3,6)}-${number.slice(6)}`;
+            } else if (number.length === 11) {
+                input.value = `+${number.slice(0,1)} (${number.slice(1,4)}) ${number.slice(4,7)}-${number.slice(7)}`;
+            }
+        }
+
+        // Event listeners
+        document.getElementById('register-password').addEventListener('input', function() {
+            checkPasswordStrength(this.value);
+        });
+
+        document.getElementById('register-phone').addEventListener('blur', function() {
+            formatPhoneNumber(this);
+        });
+
+        // Registration form handler
+        document.getElementById('registrationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Clear previous errors
+            ['email-error', 'phone-error', 'grade-error', 'password-error', 'confirm-error'].forEach(clearError);
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Client-side validation
+            let hasErrors = false;
+            
+            if (!data.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) {
+                showError('email-error', 'Please enter a valid email address');
+                hasErrors = true;
+            }
+            
+            if (!data.phone) {
+                showError('phone-error', 'Phone number is required');
+                hasErrors = true;
+            }
+            
+            if (!data.gradeLevel) {
+                showError('grade-error', 'Please select your grade level');
+                hasErrors = true;
+            }
+            
+            if (!data.password || data.password.length < 8) {
+                showError('password-error', 'Password must be at least 8 characters');
+                hasErrors = true;
+            }
+            
+            if (data.password !== data.confirmPassword) {
+                showError('confirm-error', 'Passwords do not match');
+                hasErrors = true;
+            }
+            
+            if (hasErrors) return;
+            
+            try {
+                showLoading('register', true);
+                
+                const response = await fetch(`${API_BASE_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showSuccess('register-success', 'Account created successfully! Please check your email to verify your account.');
+                    this.reset();
+                    // Optionally redirect to login
+                    setTimeout(() => showLogin(), 2000);
+                } else {
+                    if (result.field) {
+                        showError(`${result.field}-error`, result.message);
+                    } else {
+                        showError('email-error', result.message || 'Registration failed');
+                    }
+                }
+            } catch (error) {
+                showError('email-error', 'Network error. Please try again.');
+                console.error('Registration error:', error);
+            } finally {
+                showLoading('register', false);
+            }
+        });
+
+        // Login form handler
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            clearError('login-email-error');
+            clearError('login-password-error');
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                showLoading('login', true);
+                
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    // Store the token
+                    localStorage.setItem('callty_token', result.token);
+                    localStorage.setItem('callty_user', JSON.stringify(result.user));
+                    
+                    showSuccess('login-success', 'Login successful! Redirecting...');
+                    
+                    // Redirect to dashboard
+                    setTimeout(() => {
+                        window.location.href = 'dashboard.html';
+                    }, 1500);
+                } else {
+                    showError('login-email-error', result.message || 'Login failed');
+                }
+            } catch (error) {
+                showError('login-email-error', 'Network error. Please try again.');
+                console.error('Login error:', error);
+            } finally {
+                showLoading('login', false);
+            }
+        });
+
+        // Password reset form handler
+        document.getElementById('resetForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            clearError('reset-email-error');
+            
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            try {
+                showLoading('reset', true);
+                
+                const response = await fetch(`${API_BASE_URL}/auth/reset-password`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    showSuccess('reset-success', 'Reset link sent! Check your email for instructions.');
+                    this.reset();
+                } else {
+                    showError('reset-email-error', result.message || 'Reset failed');
+                }
+            } catch (error) {
+                showError('reset-email-error', 'Network error. Please try again.');
+                console.error('Reset error:', error);
+            } finally {
+                showLoading('reset', false);
+            }
+        });
+
+        // Check if user is already logged in
+        window.addEventListener('load', function() {
+            const token = localStorage.getItem('calltyro_token');
+            if (token) {
+                // User is already logged in, redirect to dashboard
+                window.location.href = 'dashboard.html';
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calltyro - Learn Through Conversation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4f46e5;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #4f46e5;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #4f46e5;
+            border: 2px solid #4f46e5;
+        }
+
+        .btn-secondary:hover {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .btn-primary {
+            background: #4f46e5;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #4338ca;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(79, 70, 229, 0.4);
+        }
+
+        .btn-large {
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 5rem 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><circle cx="200" cy="200" r="3" fill="rgba(255,255,255,0.3)"/><circle cx="800" cy="400" r="2" fill="rgba(255,255,255,0.3)"/><circle cx="400" cy="600" r="2" fill="rgba(255,255,255,0.3)"/><circle cx="600" cy="800" r="3" fill="rgba(255,255,255,0.3)"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-white {
+            background: white;
+            color: #4f46e5;
+        }
+
+        .btn-white:hover {
+            background: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            padding: 5rem 0;
+            background: white;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: #1f2937;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 16px;
+            background: #f8fafc;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .step h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: #1f2937;
+        }
+
+        .step p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 5rem 0;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .feature {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .feature:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            color: #4f46e5;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature h4 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+            color: #1f2937;
+        }
+
+        .feature p {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+
+        /* Pricing Section */
+        .pricing {
+            padding: 5rem 0;
+            background: white;
+            text-align: center;
+        }
+
+        .pricing-card {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 16px;
+            max-width: 400px;
+            margin: 2rem auto;
+            box-shadow: 0 10px 30px rgba(79, 70, 229, 0.3);
+        }
+
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .price-period {
+            opacity: 0.8;
+            margin-bottom: 2rem;
+        }
+
+        .age-disclaimer {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 1.5rem;
+            margin: 3rem auto;
+            border-radius: 8px;
+            max-width: 600px;
+            color: #92400e;
+        }
+
+        .age-disclaimer h4 {
+            color: #92400e;
+            margin-bottom: 0.5rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 5rem 0;
+            background: #f8fafc;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .faq-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-item h4 {
+            color: #1f2937;
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .faq-item p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: #1f2937;
+            color: white;
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-section h4 {
+            color: #f9fafb;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .footer-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            padding: 0.25rem 0;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .footer-links a strong {
+            color: #fbbf24;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #374151;
+            padding-top: 2rem;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            margin-bottom: 0.5rem;
+            color: #9ca3af;
+        }
+
+        .safety-notice {
+            font-size: 0.9rem;
+            color: #10b981 !important;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+
+            .footer-links {
+                align-items: center;
+            }
+
+            .age-disclaimer {
+                margin: 2rem 1rem;
+                padding: 1rem;
+            }
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo">Calltyro</a>
+            <ul class="nav-links">
+                <li><a href="#features">Features</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#faq">FAQ</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="nav-buttons">
+                <a href="#" class="btn btn-secondary">Login</a>
+                <a href="#" class="btn btn-primary">Sign Up</a>
+            </div>
+            <button class="mobile-menu-toggle">☰</button>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Learn Through Conversation</h1>
+                    <p>AI-powered educational discussions via phone calls. Perfect for auditory learners and busy students who want to learn while living their life.</p>
+                    <div class="hero-buttons">
+                        <a href="#" class="btn btn-white btn-large">Start Free Trial</a>
+                        <a href="#how-it-works" class="btn btn-secondary btn-large">See How It Works</a>
+                    </div>
+                    <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.8;">
+                        Students under 18 require parental consent • 7-day free trial
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="how-it-works" class="how-it-works">
+            <div class="container">
+                <h2 class="section-title">How Callty Works</h2>
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-icon">📞</div>
+                        <h3>Pick Your Topic</h3>
+                        <p>Choose from literature, history, science discussions organized by grade level. From Romeo & Juliet to the Civil War to photosynthesis.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">🤖</div>
+                        <h3>Get Your Call</h3>
+                        <p>Our AI tutor calls you at your scheduled time. No apps to download, no screens required - just your phone.</p>
+                    </div>
+                    <div class="step">
+                        <div class="step-icon">🧠</div>
+                        <h3>Learn Through Talking</h3>
+                        <p>Answer questions, discuss ideas, and build understanding through natural conversation. Track your progress over time.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="features" class="features">
+            <div class="container">
+                <h2 class="section-title">Why Students Love Callty</h2>
+                <div class="features-grid">
+                    <div class="feature">
+                        <div class="feature-icon">📱</div>
+                        <h4>No Screens Required</h4>
+                        <p>Learn while walking, exercising, or doing chores. Perfect for busy schedules.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🎯</div>
+                        <h4>Personalized Learning</h4>
+                        <p>AI adapts to your grade level and tracks your progress across all subjects.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">🗣️</div>
+                        <h4>Active Conversation</h4>
+                        <p>Speak and discuss rather than passive reading. Better retention through engagement.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">⏰</div>
+                        <h4>Fits Your Schedule</h4>
+                        <p>Schedule calls when convenient for you. Early morning, lunch break, or evening.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">♿</div>
+                        <h4>Accessibility First</h4>
+                        <p>Perfect for visual learners, ADHD students, and anyone who prefers audio learning.</p>
+                    </div>
+                    <div class="feature">
+                        <div class="feature-icon">📊</div>
+                        <h4>Track Progress</h4>
+                        <p>See your improvement over time with detailed learning analytics and insights.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="pricing" class="pricing">
+            <div class="container">
+                <h2 class="section-title">Simple, Affordable Learning</h2>
+                <div class="pricing-card">
+                    <div class="price">$19<span style="font-size: 1rem;">/month</span></div>
+                    <div class="price-period">Unlimited learning calls</div>
+                    <ul style="text-align: left; margin-bottom: 2rem;">
+                        <li>✅ Unlimited educational calls</li>
+                        <li>✅ All grade-level content</li>
+                        <li>✅ Progress tracking</li>
+                        <li>✅ Schedule calls anytime</li>
+                        <li>✅ Email support</li>
+                    </ul>
+                    <a href="#" class="btn btn-white btn-large">Try Free for 7 Days</a>
+                    <p style="font-size: 0.9rem; margin-top: 1rem; opacity: 0.8;">Cancel anytime • No setup fees</p>
+                </div>
+                
+                <div class="age-disclaimer">
+                    <h4>⚠️ Important for Parents & Students</h4>
+                    <p><strong>Students under 18:</strong> Parental consent required. Parents must create and manage the account.</p>
+                    <p><strong>Privacy Protected:</strong> We comply with COPPA and never collect personal information from children under 13 without verified parental consent.</p>
+                    <p><strong>Safe Learning:</strong> All content is educational and age-appropriate. Parents have full access to call history and progress reports.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="faq" class="faq-section">
+            <div class="container">
+                <h2 class="section-title">Frequently Asked Questions</h2>
+                <div class="faq-grid">
+                    <div class="faq-item">
+                        <h4>Is Calltyro safe for children?</h4>
+                        <p>Yes. All calls are AI-generated educational content only. We never collect personal information from children under 13 without parental consent. Parents can monitor all activity through our parent dashboard.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Do you need parental permission?</h4>
+                        <p>Yes, students under 18 require parental consent to use Callty. Parents must create the account and can monitor all learning activities and progress.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>What information do you collect?</h4>
+                        <p>We only collect necessary information: email, phone number for calls, and grade level for appropriate content. We never share personal data and comply with COPPA and privacy laws.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>Can I cancel anytime?</h4>
+                        <p>Absolutely. No contracts or cancellation fees. Cancel your subscription anytime through your account settings or by contacting support.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>How do the AI calls work?</h4>
+                        <p>Our AI creates educational conversations based on curriculum standards. Calls are completely automated, safe, and focused only on learning topics appropriate for your grade level.</p>
+                    </div>
+                    <div class="faq-item">
+                        <h4>What if my child needs help?</h4>
+                        <p>Parents have full access to call history, progress reports, and can set restrictions. Our support team is available to help families get the most from Callty.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Legal & Safety</h4>
+                    <div class="footer-links">
+                        <a href="privacy.html"><strong>Privacy Policy</strong></a>
+                        <a href="terms.html"><strong>Terms of Service</strong></a>
+                        <a href="coppa.html"><strong>COPPA Compliance</strong></a>
+                        <a href="parental-controls.html">Parental Controls</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <div class="footer-links">
+                        <a href="help.html">Help Center</a>
+                        <a href="contact.html">Contact Support</a>
+                        <a href="safety.html">Child Safety</a>
+                        <a href="accessibility.html">Accessibility</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h4>Parents & Teachers</h4>
+                    <div class="footer-links">
+                        <a href="for-parents.html">Parent Guide</a>
+                        <a href="for-teachers.html">Teacher Resources</a>
+                        <a href="curriculum.html">Curriculum Standards</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Calltyro. All rights reserved. Learn through conversation.</p>
+                <p class="safety-notice">🔒 <strong>Child-Safe Platform:</strong> COPPA Compliant • Parental Consent Required • Educational Content Only</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add scroll effect to header
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.background = 'rgba(255, 255, 255, 0.95)';
+            }
+        });
+
+        // Simple animation for features on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all feature cards and steps
+        document.querySelectorAll('.feature, .step').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(20px)';
+            el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(el);
+        });
+
+        // Mobile menu toggle (basic implementation)
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileToggle.addEventListener('click', function() {
+            navLinks.style.display = navLinks.style.display === 'flex' ? 'none' : 'flex';
+        });
+    </script>
+</body>
+</html>
